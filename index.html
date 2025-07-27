@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ꜰͥᴇͣᴀͫʀʟɛǟӄֆ | Advertising</title>
+  <title>ꜰͥᴇͣᴀͫʀʟɛǟӄֆ | FiveM Graphics & Community</title>
   <style>
-    /* Reset */
     * {
       margin: 0; padding: 0; box-sizing: border-box;
     }
@@ -15,136 +14,101 @@
       background: url('https://i.imgur.com/rinn2vI.jpeg') no-repeat center center fixed;
       background-size: cover;
       color: white;
+      overflow-x: hidden;
     }
     .overlay {
-      background: rgba(0, 0, 0, 0.75);
+      background: rgba(0, 0, 0, 0.85);
       min-height: 100vh;
-      padding: 40px 20px;
+      padding: 60px 30px;
       text-align: center;
+      position: relative;
     }
     header {
-      margin-bottom: 40px;
+      margin-bottom: 50px;
     }
     header h1 {
-      font-size: 3rem;
-      font-weight: bold;
+      font-size: 3.5rem;
+      font-weight: 900;
+      letter-spacing: 4px;
       margin-bottom: 10px;
-      letter-spacing: 3px;
+      color: #facc15;
+      text-shadow: 0 0 12px #facc15;
     }
     header p {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       color: #ddd;
+      max-width: 800px;
+      margin: 0 auto;
+      font-weight: 600;
     }
     section {
       max-width: 900px;
-      margin: 40px auto;
-      background: rgba(0, 0, 0, 0.6);
-      border-radius: 15px;
-      padding: 30px;
-      box-shadow: 0 0 15px #000;
+      margin: 50px auto;
+      background: rgba(30, 30, 30, 0.95);
+      border-radius: 18px;
+      padding: 35px 50px;
+      box-shadow: 0 0 35px #facc15;
+      text-align: left;
     }
     section h2 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      border-bottom: 2px solid #facc15;
-      padding-bottom: 8px;
-      text-align: left;
+      font-size: 2.5rem;
+      margin-bottom: 25px;
+      border-bottom: 4px solid #facc15;
+      padding-bottom: 12px;
+      color: #facc15;
+      font-weight: 800;
     }
-    .ad-preview {
-      margin: 20px auto;
-      max-width: 500px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px #facc15;
-    }
-    /* Rotating banner ad container */
-    .banner-ad {
-      max-width: 728px;
-      margin: 30px auto;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 0 20px #facc15;
-    }
-    .banner-ad img {
-      width: 100%;
-      display: block;
-    }
-    /* Pricing table */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
+    p, ul {
+      font-size: 1.2rem;
+      line-height: 1.6;
       color: #eee;
     }
-    th, td {
-      border: 1px solid #444;
-      padding: 12px;
-      text-align: center;
+    ul {
+      list-style-type: disc;
+      margin-left: 30px;
+      margin-top: 15px;
     }
-    th {
-      background: #222;
-      font-weight: 600;
-    }
-    tr:nth-child(even) {
-      background: #111;
-    }
-    /* Form */
-    form {
-      text-align: left;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    label {
+    .preview-img {
       display: block;
-      margin: 15px 0 5px;
-      font-weight: 600;
+      margin: 30px auto;
+      max-width: 600px;
+      border-radius: 16px;
+      box-shadow: 0 0 25px #facc15;
+      border: 3px solid #facc15;
     }
-    input, select, textarea {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      font-size: 1rem;
-    }
-    textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
-    button {
-      margin-top: 20px;
+    .btn {
       background-color: #facc15;
-      border: none;
-      padding: 15px 25px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
       color: black;
-      width: 100%;
+      font-weight: 800;
+      padding: 18px 50px;
+      border-radius: 16px;
+      font-size: 1.4rem;
+      cursor: pointer;
+      border: none;
+      display: inline-block;
+      margin: 40px auto 20px;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+      box-shadow: 0 0 15px #facc15;
+      text-align: center;
+      user-select: none;
     }
-    button:hover {
+    .btn:hover {
       background-color: #d4b10f;
     }
-    /* Testimonials */
-    .testimonial {
-      background: #222;
-      padding: 20px;
-      margin: 15px 0;
-      border-radius: 12px;
-      font-style: italic;
-      box-shadow: 0 0 10px #facc15;
-    }
-    /* Footer */
     footer {
       text-align: center;
-      padding: 20px;
-      margin-top: 50px;
-      background: rgba(0,0,0,0.8);
-      font-size: 0.9rem;
+      padding: 22px;
+      margin-top: 60px;
+      background: rgba(0,0,0,0.95);
+      font-size: 1rem;
+      color: #bbb;
+      font-weight: 600;
+      user-select: none;
     }
     footer a {
       color: #facc15;
-      font-weight: bold;
+      font-weight: 700;
       text-decoration: none;
     }
     footer a:hover {
@@ -155,115 +119,38 @@
 <body>
   <div class="overlay">
     <header>
-      <h1>ꜰͥᴇͣᴀͫʀʟɛǟӄֆ Advertising</h1>
-      <p>Your go-to platform for premium, effective, and affordable FiveM server ads.</p>
+      <h1>ꜰͥᴇͣᴀͫʀʟɛǟӄֆ</h1>
+      <p>Your premier FiveM graphics pack & community hub — reshades, realistic packs, scripts, and more. Join us for exclusive content and support.</p>
     </header>
 
-    <section id="about">
-      <h2>About Our Ad Services</h2>
-      <p>At ꜰͥᴇͣᴀͫʀʟɛǟӄֆ, we help FiveM server owners and creators promote their content through high-quality banner ads, sponsored posts, and product promotions designed to get noticed.</p>
+    <section>
+      <h2>Join Our Discord Community</h2>
+      <p>Connect with fellow FiveM creators, get support, and access all our exclusive graphics and scripts.</p>
+      <a href="https://discord.gg/85YgY334mg" target="_blank" rel="noopener noreferrer" class="btn">Join Discord Server</a>
     </section>
 
-    <section id="ad-types">
-      <h2>Ad Types We Offer</h2>
-      <ul style="text-align:left; max-width: 600px; margin: 0 auto; font-size: 1.1rem; color:#eee; list-style-type: disc;">
-        <li>Rotating Banner Ads on High-Traffic Pages</li>
-        <li>Sponsored Posts with Custom Graphics</li>
-        <li>Product & Service Promotion</li>
-        <li>Exclusive Partner Slots</li>
+    <section>
+      <h2>What We Offer</h2>
+      <ul>
+        <li>High-quality <strong>D10 Graphics Packs</strong> for your FiveM server</li>
+        <li>Realistic reshades and sound packs</li>
+        <li>Weapon skins, animations, and movement boosts</li>
+        <li>Exclusive community giveaways and events</li>
+        <li>Fast and friendly support via Discord tickets</li>
       </ul>
-      <div class="banner-ad">
-        <img src="https://i.imgur.com/5yHfhsE.png" alt="Ad Preview" />
-      </div>
+      <img src="https://i.imgur.com/5yHfhsE.png" alt="D10 Graphics Preview" class="preview-img" />
     </section>
 
-    <section id="pricing">
-      <h2>Pricing Plans</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Package</th>
-            <th>Duration</th>
-            <th>Price (USD)</th>
-            <th>Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Basic Banner</td>
-            <td>1 Week</td>
-            <td>$10</td>
-            <td>Standard banner on main pages</td>
-          </tr>
-          <tr>
-            <td>Premium Banner</td>
-            <td>1 Month</td>
-            <td>$35</td>
-            <td>High visibility + rotating slots</td>
-          </tr>
-          <tr>
-            <td>Sponsored Post</td>
-            <td>1 Post</td>
-            <td>$25</td>
-            <td>Custom post with graphics & link</td>
-          </tr>
-          <tr>
-            <td>Exclusive Partner</td>
-            <td>1 Month</td>
-            <td>$60</td>
-            <td>Featured partner & dedicated slot</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section id="submit">
-      <h2>Submit Your Ad</h2>
-      <form id="adForm">
-        <label for="name">Your Name / Company</label>
-        <input type="text" id="name" name="name" placeholder="John Doe" required />
-
-        <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" placeholder="email@example.com" required />
-
-        <label for="adType">Ad Type</label>
-        <select id="adType" name="adType" required>
-          <option value="">Select an option</option>
-          <option value="basic">Basic Banner</option>
-          <option value="premium">Premium Banner</option>
-          <option value="sponsored">Sponsored Post</option>
-          <option value="partner">Exclusive Partner</option>
-        </select>
-
-        <label for="message">Ad Details / Message</label>
-        <textarea id="message" name="message" placeholder="Tell us about your ad and any special requests..." required></textarea>
-
-        <button type="submit">Submit Ad Request</button>
-      </form>
-    </section>
-
-    <section id="testimonials">
-      <h2>What Our Clients Say</h2>
-      <div class="testimonial">"ꜰͥᴇͣᴀͫʀʟɛǟӄֆ helped my server grow massively. Ads were top quality and affordable!" — Alex P.</div>
-      <div class="testimonial">"Great ad placements and amazing support. Highly recommend to any FiveM creator." — Mia S.</div>
-    </section>
-
-    <section id="contact">
-      <h2>Contact Us</h2>
-      <p>For any questions or support, please create a ticket in our <a href="https://discord.gg/85YgY334mg" target="_blank" rel="noopener noreferrer" style="color:#facc15;">Discord server</a>.</p>
+    <section>
+      <h2>Get Started</h2>
+      <p>Ready to elevate your FiveM experience? Download our free D10 Graphics Pack and become part of the FearLeakֆ family today.</p>
+      <a href="https://discord.gg/85YgY334mg" target="_blank" rel="noopener noreferrer" class="btn">Download & Join Discord</a>
     </section>
 
     <footer>
-      &copy; 2025 ꜰͥᴇͣᴀͫʀʟɛǟӄֆ. All rights reserved.
+      Owned by <strong>Clickey</strong> &nbsp; | &nbsp; Co-Owner <strong>JJ</strong> <br />
+      © 2025 ꜰͥᴇͣᴀͫʀʟɛǟӄֆ. All rights reserved.
     </footer>
   </div>
-
-  <script>
-    document.getElementById('adForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      alert('Thank you for submitting your ad request! We will contact you soon.');
-      this.reset();
-    });
-  </script>
 </body>
 </html>
