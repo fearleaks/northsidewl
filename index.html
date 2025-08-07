@@ -1,171 +1,163 @@
-import { useState } from "react";
-import { Slider } from "@/components/ui/slider";
-import { Button } from "@/components/ui/button";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crosshair Customizer</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: white;
+      font-family: sans-serif;
+      overflow: hidden;
+    }
+    .crosshair {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .controls {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: #222;
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+    }
+    label {
+      display: block;
+      margin: 10px 0 4px;
+    }
+    input[type="range"],
+    input[type="color"],
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 4px;
+      margin-bottom: 8px;
+    }
+    .crosshair-line {
+      position: absolute;
+      background-color: lime;
+    }
+  </style>
+</head>
+<body>
+  <div id="crosshair" class="crosshair"></div>
 
-const crosshairPresets = [
-  {
-    name: "TXl3uW1",
-    url: "https://cdn.discordapp.com/attachments/1381854246470680587/1381942898404364298/TXl3uW1.png"
-  },
-  {
-    name: "eZk93jG",
-    url: "https://media.discordapp.net/attachments/1381854246470680587/1381942898907418704/eZk93jG.png"
-  },
-  {
-    name: "new_cross",
-    url: "https://media.discordapp.net/attachments/1381854246470680587/1381943061268926597/new_cross.png"
-  }
-];
+  <div class="controls">
+    <label for="preset">Crosshair Preset</label>
+    <select id="preset">
+      <option value="">Custom (lines)</option>
+      <option value="https://cdn.discordapp.com/attachments/1381854246470680587/1381942898404364298/TXl3uW1.png">TXl3uW1</option>
+      <option value="https://media.discordapp.net/attachments/1381854246470680587/1381942898907418704/eZk93jG.png">eZk93jG</option>
+      <option value="https://media.discordapp.net/attachments/1381854246470680587/1381943061268926597/new_cross.png">new_cross</option>
+      <option value="custom">Your Own Link</option>
+    </select>
 
-export default function CrosshairCustomizer() {
-  const [color, setColor] = useState("#00FF00");
-  const [size, setSize] = useState(40);
-  const [thickness, setThickness] = useState(2);
-  const [gap, setGap] = useState(10);
-  const [monitor, setMonitor] = useState(1);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [customImageUrl, setCustomImageUrl] = useState("");
-
-  const crosshairStyle = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: `${size}px`,
-    height: `${size}px`,
-    pointerEvents: "none",
-  };
-
-  const lineStyle = {
-    backgroundColor: color,
-    position: "absolute",
-  };
-
-  const horizontal = {
-    ...lineStyle,
-    top: "50%",
-    left: 0,
-    height: `${thickness}px`,
-    width: `calc(100% - ${gap * 2}px)`,
-    transform: `translateY(-50%)`,
-  };
-
-  const vertical = {
-    ...lineStyle,
-    left: "50%",
-    top: 0,
-    width: `${thickness}px`,
-    height: `calc(100% - ${gap * 2}px)`,
-    transform: `translateX(-50%)`,
-  };
-
-  const activeImage = selectedImage === "custom" ? customImageUrl : selectedImage;
-
-  return (
-    <div className="relative h-screen bg-black text-white">
-      <div
-        className="pointer-events-none"
-        style={{ ...crosshairStyle }}>
-        {activeImage ? (
-          <img src={activeImage} alt="Crosshair" className="w-full h-full object-contain" />
-        ) : (
-          <>
-            <div style={horizontal}></div>
-            <div style={vertical}></div>
-          </>
-        )}
-      </div>
-
-      <div className="absolute bottom-4 left-4 bg-gray-800 p-4 rounded-xl space-y-3 max-w-sm">
-        <div>
-          <label>Crosshair Preset</label>
-          <select
-            className="text-black w-full rounded px-2 py-1"
-            onChange={(e) => setSelectedImage(e.target.value)}
-            value={selectedImage || ""}
-          >
-            <option value="">Custom (color/lines)</option>
-            {crosshairPresets.map((preset) => (
-              <option key={preset.url} value={preset.url}>
-                {preset.name}
-              </option>
-            ))}
-            <option value="custom">Your Own Link</option>
-          </select>
-        </div>
-
-        {selectedImage === "custom" && (
-          <div>
-            <label>Custom Image URL</label>
-            <input
-              type="text"
-              className="text-black w-full px-2 py-1 rounded"
-              placeholder="Paste image link"
-              value={customImageUrl}
-              onChange={(e) => setCustomImageUrl(e.target.value)}
-            />
-          </div>
-        )}
-
-        {!activeImage && (
-          <>
-            <div>
-              <label>Color</label>
-              <input
-                type="color"
-                value={color}
-                onChange={(e) => setColor(e.target.value)}
-              />
-            </div>
-            <div>
-              <label>Size</label>
-              <Slider
-                min={20}
-                max={100}
-                value={[size]}
-                onValueChange={(val) => setSize(val[0])}
-              />
-            </div>
-            <div>
-              <label>Gap</label>
-              <Slider
-                min={0}
-                max={40}
-                value={[gap]}
-                onValueChange={(val) => setGap(val[0])}
-              />
-            </div>
-            <div>
-              <label>Thickness</label>
-              <Slider
-                min={1}
-                max={10}
-                value={[thickness]}
-                onValueChange={(val) => setThickness(val[0])}
-              />
-            </div>
-          </>
-        )}
-
-        <div>
-          <label>Monitor</label>
-          <select
-            className="text-black w-full rounded px-2 py-1"
-            value={monitor}
-            onChange={(e) => setMonitor(Number(e.target.value))}>
-            <option value={1}>Monitor 1</option>
-            <option value={2}>Monitor 2</option>
-            <option value={3}>Monitor 3</option>
-          </select>
-        </div>
-
-        <Button
-          onClick={() => {
-            alert("Crosshair applied!");
-          }}>
-          Apply Crosshair
-        </Button>
-      </div>
+    <div id="customLinkInput" style="display: none;">
+      <label for="customLink">Custom Image URL</label>
+      <input type="text" id="customLink" placeholder="Paste image URL..." />
     </div>
-  );
-}
+
+    <div id="customControls">
+      <label for="color">Color</label>
+      <input type="color" id="color" value="#00ff00" />
+
+      <label for="size">Size</label>
+      <input type="range" id="size" min="20" max="200" value="40" />
+
+      <label for="gap">Gap</label>
+      <input type="range" id="gap" min="0" max="40" value="10" />
+
+      <label for="thickness">Thickness</label>
+      <input type="range" id="thickness" min="1" max="10" value="2" />
+    </div>
+
+    <button onclick="applyCrosshair()">Apply Crosshair</button>
+  </div>
+
+  <script>
+    const crosshair = document.getElementById("crosshair");
+    const preset = document.getElementById("preset");
+    const customLink = document.getElementById("customLink");
+    const customLinkInput = document.getElementById("customLinkInput");
+    const colorInput = document.getElementById("color");
+    const sizeInput = document.getElementById("size");
+    const gapInput = document.getElementById("gap");
+    const thicknessInput = document.getElementById("thickness");
+    const customControls = document.getElementById("customControls");
+
+    preset.addEventListener("change", () => {
+      const value = preset.value;
+      customLinkInput.style.display = value === "custom" ? "block" : "none";
+      customControls.style.display = value === "" ? "block" : "none";
+      renderCrosshair();
+    });
+
+    [colorInput, sizeInput, gapInput, thicknessInput].forEach(input => {
+      input.addEventListener("input", renderCrosshair);
+    });
+
+    customLink.addEventListener("input", renderCrosshair);
+
+    function applyCrosshair() {
+      alert("Crosshair applied!");
+    }
+
+    function renderCrosshair() {
+      crosshair.innerHTML = "";
+      const presetVal = preset.value;
+
+      if (presetVal && presetVal !== "custom") {
+        const img = document.createElement("img");
+        img.src = presetVal;
+        img.style.width = sizeInput.value + "px";
+        img.style.height = sizeInput.value + "px";
+        crosshair.appendChild(img);
+      } else if (presetVal === "custom") {
+        if (customLink.value) {
+          const img = document.createElement("img");
+          img.src = customLink.value;
+          img.style.width = sizeInput.value + "px";
+          img.style.height = sizeInput.value + "px";
+          crosshair.appendChild(img);
+        }
+      } else {
+        const size = parseInt(sizeInput.value);
+        const gap = parseInt(gapInput.value);
+        const thickness = parseInt(thicknessInput.value);
+        const color = colorInput.value;
+
+        const hor = document.createElement("div");
+        hor.className = "crosshair-line";
+        hor.style.backgroundColor = color;
+        hor.style.width = `${size - gap * 2}px`;
+        hor.style.height = `${thickness}px`;
+        hor.style.top = `calc(50% - ${thickness / 2}px)`;
+        hor.style.left = `${gap}px`;
+
+        const vert = document.createElement("div");
+        vert.className = "crosshair-line";
+        vert.style.backgroundColor = color;
+        vert.style.height = `${size - gap * 2}px`;
+        vert.style.width = `${thickness}px`;
+        vert.style.top = `${gap}px`;
+        vert.style.left = `calc(50% - ${thickness / 2}px)`;
+
+        crosshair.style.width = `${size}px`;
+        crosshair.style.height = `${size}px`;
+
+        crosshair.appendChild(hor);
+        crosshair.appendChild(vert);
+      }
+    }
+
+    renderCrosshair();
+  </script>
+</body>
+</html>
