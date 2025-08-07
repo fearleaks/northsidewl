@@ -1,156 +1,171 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ꜰͥᴇͣᴀͫʀʟɛǟӄֆ | FiveM Graphics & Community</title>
-  <style>
-    * {
-      margin: 0; padding: 0; box-sizing: border-box;
-    }
-    body, html {
-      height: 100%;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: url('https://i.imgur.com/rinn2vI.jpeg') no-repeat center center fixed;
-      background-size: cover;
-      color: white;
-      overflow-x: hidden;
-    }
-    .overlay {
-      background: rgba(0, 0, 0, 0.85);
-      min-height: 100vh;
-      padding: 60px 30px;
-      text-align: center;
-      position: relative;
-    }
-    header {
-      margin-bottom: 50px;
-    }
-    header h1 {
-      font-size: 3.5rem;
-      font-weight: 900;
-      letter-spacing: 4px;
-      margin-bottom: 10px;
-      color: #facc15;
-      text-shadow: 0 0 12px #facc15;
-    }
-    header p {
-      font-size: 1.3rem;
-      color: #ddd;
-      max-width: 800px;
-      margin: 0 auto;
-      font-weight: 600;
-    }
-    section {
-      max-width: 900px;
-      margin: 50px auto;
-      background: rgba(30, 30, 30, 0.95);
-      border-radius: 18px;
-      padding: 35px 50px;
-      box-shadow: 0 0 35px #facc15;
-      text-align: left;
-    }
-    section h2 {
-      font-size: 2.5rem;
-      margin-bottom: 25px;
-      border-bottom: 4px solid #facc15;
-      padding-bottom: 12px;
-      color: #facc15;
-      font-weight: 800;
-    }
-    p, ul {
-      font-size: 1.2rem;
-      line-height: 1.6;
-      color: #eee;
-    }
-    ul {
-      list-style-type: disc;
-      margin-left: 30px;
-      margin-top: 15px;
-    }
-    .preview-img {
-      display: block;
-      margin: 30px auto;
-      max-width: 600px;
-      border-radius: 16px;
-      box-shadow: 0 0 25px #facc15;
-      border: 3px solid #facc15;
-    }
-    .btn {
-      background-color: #facc15;
-      color: black;
-      font-weight: 800;
-      padding: 18px 50px;
-      border-radius: 16px;
-      font-size: 1.4rem;
-      cursor: pointer;
-      border: none;
-      display: inline-block;
-      margin: 40px auto 20px;
-      transition: background-color 0.3s ease;
-      text-decoration: none;
-      box-shadow: 0 0 15px #facc15;
-      text-align: center;
-      user-select: none;
-    }
-    .btn:hover {
-      background-color: #d4b10f;
-    }
-    footer {
-      text-align: center;
-      padding: 22px;
-      margin-top: 60px;
-      background: rgba(0,0,0,0.95);
-      font-size: 1rem;
-      color: #bbb;
-      font-weight: 600;
-      user-select: none;
-    }
-    footer a {
-      color: #facc15;
-      font-weight: 700;
-      text-decoration: none;
-    }
-    footer a:hover {
-      text-decoration: underline;
-    }
-  </style>
-</head>
-<body>
-  <div class="overlay">
-    <header>
-      <h1>ꜰͥᴇͣᴀͫʀʟɛǟӄֆ</h1>
-      <p>Your premier FiveM graphics pack & community hub — reshades, realistic packs, scripts, and more. Join us for exclusive content and support.</p>
-    </header>
+import { useState } from "react";
+import { Slider } from "@/components/ui/slider";
+import { Button } from "@/components/ui/button";
 
-    <section>
-      <h2>Join Our Discord Community</h2>
-      <p>Connect with fellow FiveM creators, get support, and access all our exclusive graphics and scripts.</p>
-      <a href="https://discord.gg/85YgY334mg" target="_blank" rel="noopener noreferrer" class="btn">Join Discord Server</a>
-    </section>
+const crosshairPresets = [
+  {
+    name: "TXl3uW1",
+    url: "https://cdn.discordapp.com/attachments/1381854246470680587/1381942898404364298/TXl3uW1.png"
+  },
+  {
+    name: "eZk93jG",
+    url: "https://media.discordapp.net/attachments/1381854246470680587/1381942898907418704/eZk93jG.png"
+  },
+  {
+    name: "new_cross",
+    url: "https://media.discordapp.net/attachments/1381854246470680587/1381943061268926597/new_cross.png"
+  }
+];
 
-    <section>
-      <h2>What We Offer</h2>
-      <ul>
-        <li>High-quality <strong>D10 Graphics Packs</strong> for your FiveM server</li>
-        <li>Realistic reshades and sound packs</li>
-        <li>Weapon skins, animations, and movement boosts</li>
-        <li>Exclusive community giveaways and events</li>
-        <li>Fast and friendly support via Discord tickets</li>
-      </ul>
-      <img src="https://i.imgur.com/5yHfhsE.png" alt="D10 Graphics Preview" class="preview-img" />
-    </section>
+export default function CrosshairCustomizer() {
+  const [color, setColor] = useState("#00FF00");
+  const [size, setSize] = useState(40);
+  const [thickness, setThickness] = useState(2);
+  const [gap, setGap] = useState(10);
+  const [monitor, setMonitor] = useState(1);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [customImageUrl, setCustomImageUrl] = useState("");
 
-    <section>
-      <h2>Get Started</h2>
-      <p>Ready to elevate your FiveM experience? Download our free D10 Graphics Pack and become part of the FearLeakֆ family today.</p>
-      <a href="https://discord.gg/85YgY334mg" target="_blank" rel="noopener noreferrer" class="btn">Download & Join Discord</a>
-    </section>
+  const crosshairStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: `${size}px`,
+    height: `${size}px`,
+    pointerEvents: "none",
+  };
 
-    <footer>
-      Owned by <strong>Clickey</strong> &nbsp; | &nbsp; Co-Owner <strong>JJ</strong> <br />
-      © 2025 ꜰͥᴇͣᴀͫʀʟɛǟӄֆ. All rights reserved.
-    </footer>
-  </div>
-</body>
-</html>
+  const lineStyle = {
+    backgroundColor: color,
+    position: "absolute",
+  };
+
+  const horizontal = {
+    ...lineStyle,
+    top: "50%",
+    left: 0,
+    height: `${thickness}px`,
+    width: `calc(100% - ${gap * 2}px)`,
+    transform: `translateY(-50%)`,
+  };
+
+  const vertical = {
+    ...lineStyle,
+    left: "50%",
+    top: 0,
+    width: `${thickness}px`,
+    height: `calc(100% - ${gap * 2}px)`,
+    transform: `translateX(-50%)`,
+  };
+
+  const activeImage = selectedImage === "custom" ? customImageUrl : selectedImage;
+
+  return (
+    <div className="relative h-screen bg-black text-white">
+      <div
+        className="pointer-events-none"
+        style={{ ...crosshairStyle }}>
+        {activeImage ? (
+          <img src={activeImage} alt="Crosshair" className="w-full h-full object-contain" />
+        ) : (
+          <>
+            <div style={horizontal}></div>
+            <div style={vertical}></div>
+          </>
+        )}
+      </div>
+
+      <div className="absolute bottom-4 left-4 bg-gray-800 p-4 rounded-xl space-y-3 max-w-sm">
+        <div>
+          <label>Crosshair Preset</label>
+          <select
+            className="text-black w-full rounded px-2 py-1"
+            onChange={(e) => setSelectedImage(e.target.value)}
+            value={selectedImage || ""}
+          >
+            <option value="">Custom (color/lines)</option>
+            {crosshairPresets.map((preset) => (
+              <option key={preset.url} value={preset.url}>
+                {preset.name}
+              </option>
+            ))}
+            <option value="custom">Your Own Link</option>
+          </select>
+        </div>
+
+        {selectedImage === "custom" && (
+          <div>
+            <label>Custom Image URL</label>
+            <input
+              type="text"
+              className="text-black w-full px-2 py-1 rounded"
+              placeholder="Paste image link"
+              value={customImageUrl}
+              onChange={(e) => setCustomImageUrl(e.target.value)}
+            />
+          </div>
+        )}
+
+        {!activeImage && (
+          <>
+            <div>
+              <label>Color</label>
+              <input
+                type="color"
+                value={color}
+                onChange={(e) => setColor(e.target.value)}
+              />
+            </div>
+            <div>
+              <label>Size</label>
+              <Slider
+                min={20}
+                max={100}
+                value={[size]}
+                onValueChange={(val) => setSize(val[0])}
+              />
+            </div>
+            <div>
+              <label>Gap</label>
+              <Slider
+                min={0}
+                max={40}
+                value={[gap]}
+                onValueChange={(val) => setGap(val[0])}
+              />
+            </div>
+            <div>
+              <label>Thickness</label>
+              <Slider
+                min={1}
+                max={10}
+                value={[thickness]}
+                onValueChange={(val) => setThickness(val[0])}
+              />
+            </div>
+          </>
+        )}
+
+        <div>
+          <label>Monitor</label>
+          <select
+            className="text-black w-full rounded px-2 py-1"
+            value={monitor}
+            onChange={(e) => setMonitor(Number(e.target.value))}>
+            <option value={1}>Monitor 1</option>
+            <option value={2}>Monitor 2</option>
+            <option value={3}>Monitor 3</option>
+          </select>
+        </div>
+
+        <Button
+          onClick={() => {
+            alert("Crosshair applied!");
+          }}>
+          Apply Crosshair
+        </Button>
+      </div>
+    </div>
+  );
+}
