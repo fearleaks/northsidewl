@@ -2,162 +2,65 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Crosshair Customizer</title>
+  <title>FEAR Banner</title>
   <style>
-    body {
-      margin: 0;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      height: 100%;
       background: black;
-      color: white;
-      font-family: sans-serif;
       overflow: hidden;
+      font-family: Arial, sans-serif;
     }
-    .crosshair {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
+    .container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background: url('banner.png') no-repeat center center;
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
     }
-    .controls {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-      background: #222;
-      padding: 20px;
-      border-radius: 10px;
-      width: 300px;
+
+    .glow-text {
+      font-size: 100px;
+      font-weight: bold;
+      text-transform: uppercase;
+      animation: glow 5s linear infinite;
+      color: white;
+      text-align: center;
+      text-shadow: 0 0 20px rgba(255,255,255,0.3);
     }
-    label {
-      display: block;
-      margin: 10px 0 4px;
+
+    .socials {
+      font-size: 28px;
+      font-weight: bold;
+      animation: glow 5s linear infinite;
+      color: white;
+      text-shadow: 0 0 20px rgba(255,255,255,0.3);
     }
-    input[type="range"],
-    input[type="color"],
-    input[type="text"],
-    select {
-      width: 100%;
-      padding: 4px;
-      margin-bottom: 8px;
-    }
-    .crosshair-line {
-      position: absolute;
-      background-color: lime;
+
+    @keyframes glow {
+      0% { text-shadow: 0 0 20px red; }
+      16% { text-shadow: 0 0 20px orange; }
+      32% { text-shadow: 0 0 20px yellow; }
+      48% { text-shadow: 0 0 20px green; }
+      64% { text-shadow: 0 0 20px cyan; }
+      80% { text-shadow: 0 0 20px blue; }
+      100% { text-shadow: 0 0 20px magenta; }
     }
   </style>
 </head>
 <body>
-  <div id="crosshair" class="crosshair"></div>
-
-  <div class="controls">
-    <label for="preset">Crosshair Preset</label>
-    <select id="preset">
-      <option value="">Custom (lines)</option>
-      <option value="https://cdn.discordapp.com/attachments/1381854246470680587/1381942898404364298/TXl3uW1.png">TXl3uW1</option>
-      <option value="https://media.discordapp.net/attachments/1381854246470680587/1381942898907418704/eZk93jG.png">eZk93jG</option>
-      <option value="https://media.discordapp.net/attachments/1381854246470680587/1381943061268926597/new_cross.png">new_cross</option>
-      <option value="custom">Your Own Link</option>
-    </select>
-
-    <div id="customLinkInput" style="display: none;">
-      <label for="customLink">Custom Image URL</label>
-      <input type="text" id="customLink" placeholder="Paste image URL..." />
+  <div class="container">
+    <div class="glow-text">FEAR</div>
+    <div class="socials">
+      TikTok: clickey<br>
+      Discord: clickey#3520<br>
+      YouTube: rpfear
     </div>
-
-    <div id="customControls">
-      <label for="color">Color</label>
-      <input type="color" id="color" value="#00ff00" />
-
-      <label for="size">Size</label>
-      <input type="range" id="size" min="20" max="200" value="40" />
-
-      <label for="gap">Gap</label>
-      <input type="range" id="gap" min="0" max="40" value="10" />
-
-      <label for="thickness">Thickness</label>
-      <input type="range" id="thickness" min="1" max="10" value="2" />
-    </div>
-
-    <button onclick="applyCrosshair()">Apply Crosshair</button>
   </div>
-
-  <script>
-    const crosshair = document.getElementById("crosshair");
-    const preset = document.getElementById("preset");
-    const customLink = document.getElementById("customLink");
-    const customLinkInput = document.getElementById("customLinkInput");
-    const colorInput = document.getElementById("color");
-    const sizeInput = document.getElementById("size");
-    const gapInput = document.getElementById("gap");
-    const thicknessInput = document.getElementById("thickness");
-    const customControls = document.getElementById("customControls");
-
-    preset.addEventListener("change", () => {
-      const value = preset.value;
-      customLinkInput.style.display = value === "custom" ? "block" : "none";
-      customControls.style.display = value === "" ? "block" : "none";
-      renderCrosshair();
-    });
-
-    [colorInput, sizeInput, gapInput, thicknessInput].forEach(input => {
-      input.addEventListener("input", renderCrosshair);
-    });
-
-    customLink.addEventListener("input", renderCrosshair);
-
-    function applyCrosshair() {
-      alert("Crosshair applied!");
-    }
-
-    function renderCrosshair() {
-      crosshair.innerHTML = "";
-      const presetVal = preset.value;
-
-      if (presetVal && presetVal !== "custom") {
-        const img = document.createElement("img");
-        img.src = presetVal;
-        img.style.width = sizeInput.value + "px";
-        img.style.height = sizeInput.value + "px";
-        crosshair.appendChild(img);
-      } else if (presetVal === "custom") {
-        if (customLink.value) {
-          const img = document.createElement("img");
-          img.src = customLink.value;
-          img.style.width = sizeInput.value + "px";
-          img.style.height = sizeInput.value + "px";
-          crosshair.appendChild(img);
-        }
-      } else {
-        const size = parseInt(sizeInput.value);
-        const gap = parseInt(gapInput.value);
-        const thickness = parseInt(thicknessInput.value);
-        const color = colorInput.value;
-
-        const hor = document.createElement("div");
-        hor.className = "crosshair-line";
-        hor.style.backgroundColor = color;
-        hor.style.width = `${size - gap * 2}px`;
-        hor.style.height = `${thickness}px`;
-        hor.style.top = `calc(50% - ${thickness / 2}px)`;
-        hor.style.left = `${gap}px`;
-
-        const vert = document.createElement("div");
-        vert.className = "crosshair-line";
-        vert.style.backgroundColor = color;
-        vert.style.height = `${size - gap * 2}px`;
-        vert.style.width = `${thickness}px`;
-        vert.style.top = `${gap}px`;
-        vert.style.left = `calc(50% - ${thickness / 2}px)`;
-
-        crosshair.style.width = `${size}px`;
-        crosshair.style.height = `${size}px`;
-
-        crosshair.appendChild(hor);
-        crosshair.appendChild(vert);
-      }
-    }
-
-    renderCrosshair();
-  </script>
 </body>
 </html>
+
