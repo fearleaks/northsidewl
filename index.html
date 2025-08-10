@@ -11,7 +11,7 @@
   body, html {
     margin: 0; padding: 0; height: 100%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: url('https://imgur.com/DhxAbjD') no-repeat center center fixed;
+    background: url('https://i.imgur.com/DhxAbjD.png') no-repeat center center fixed;
     background-size: cover;
     color: #f0f0f0;
     position: relative;
@@ -509,8 +509,60 @@
   </div>
 
 <script>
-  // Store logged in usernames so usernames are unique (demo only)
+  // Demo: keep track of logged-in usernames to prevent duplicates
   const loggedUsernames = new Set();
 
   const loginOverlay = document.getElementById('login-overlay');
-  const loginBtn = document.getElementBy
+  const loginBtn = document.getElementById('login-btn');
+  const loginUsername = document.getElementById('login-username');
+  const loginPassword = document.getElementById('login-password');
+  const loginError = document.getElementById('login-error');
+
+  const dashboardSection = document.getElementById('dashboard-section');
+  const userDisplay = document.getElementById('user-display');
+  const logoutBtn = document.getElementById('logout-btn');
+
+  loginBtn.addEventListener('click', () => {
+    const username = loginUsername.value.trim();
+    const password = loginPassword.value.trim();
+
+    // Simple validation: fields not empty
+    if (!username || !password) {
+      loginError.textContent = 'Please enter username and password.';
+      return;
+    }
+
+    // Prevent duplicate logins in this demo
+    if (loggedUsernames.has(username)) {
+      loginError.textContent = 'Username is already logged in.';
+      return;
+    }
+
+    // "Log in" the user
+    loggedUsernames.add(username);
+
+    // Clear error message
+    loginError.textContent = '';
+
+    // Show dashboard and hide login overlay
+    loginOverlay.style.display = 'none';
+    dashboardSection.style.display = 'block';
+    userDisplay.textContent = username;
+
+    // Clear input fields
+    loginUsername.value = '';
+    loginPassword.value = '';
+  });
+
+  logoutBtn.addEventListener('click', () => {
+    const username = userDisplay.textContent;
+    if (loggedUsernames.has(username)) {
+      loggedUsernames.delete(username);
+    }
+    dashboardSection.style.display = 'none';
+    loginOverlay.style.display = 'flex';
+  });
+</script>
+
+</body>
+</html>
