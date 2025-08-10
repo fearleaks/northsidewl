@@ -11,167 +11,518 @@
   body, html {
     margin: 0; padding: 0; height: 100%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #111;
-    color: white;
+    background: url('https://i.imgur.com/aZNUJQI.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #f0f0f0;
+    position: relative;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(15,15,15,0.85);
+    z-index: 0;
+  }
+  #app {
+    position: relative;
+    z-index: 1;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 30px 20px 60px;
+    transition: filter 0.5s ease;
   }
   header {
-    background-color: #222;
-    padding: 20px;
     text-align: center;
+    margin-bottom: 6px;
   }
   header h1 {
-    margin: 0;
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+    text-shadow: 0 0 10px #00aaffaa;
+  }
+  header p, #pro-note {
+    font-size: 1.2rem;
+    color: #88ccffcc;
+    margin-bottom: 20px;
+  }
+  #pro-note {
+    font-style: italic;
+    max-width: 560px;
+    margin: 0 auto 30px auto;
+  }
+
+  /* Search Bar */
+  #search-bar {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 30px auto;
+    padding: 10px 14px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    box-shadow: 0 0 12px #00aaffbb inset;
+    background: #111;
+    color: #cee;
+    transition: box-shadow 0.3s ease;
+  }
+  #search-bar::placeholder {
+    color: #66aaffaa;
+  }
+  #search-bar:focus {
+    box-shadow: 0 0 18px #00aaffee inset;
+  }
+
+  /* Blur overlay for locked view */
+  #login-overlay {
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.85);
+    color: #00aaff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    font-family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+    text-align: center;
+    padding: 0 20px;
+  }
+  #login-overlay h2 {
+    margin-bottom: 20px;
     font-size: 2rem;
+    max-width: 360px;
   }
-  .products {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 20px;
+  #login-overlay small {
+    font-weight: 400;
+    font-size: 1rem;
+    color: #00aaffcc;
   }
-  .product {
-    background-color: #1b1b1b;
-    padding: 15px;
+  #login-overlay input {
+    padding: 10px;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border: none;
+    width: 280px;
+    max-width: 90vw;
+    background: #222;
+    color: #cee;
+    outline: none;
+  }
+  #login-overlay input::placeholder {
+    color: #66aaffaa;
+  }
+  #login-btn {
+    padding: 12px 0;
+    width: 280px;
+    max-width: 90vw;
+    font-size: 1.2rem;
+    font-weight: 700;
+    border: none;
     border-radius: 8px;
+    background: #00aaff;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  #login-btn:hover {
+    background: #008fcc;
+  }
+  #login-error {
+    margin-top: 12px;
+    color: #ff5555;
+    font-weight: 700;
+    min-height: 1.2rem;
+  }
+
+  /* User Dashboard */
+  #dashboard-section {
+    max-width: 940px;
+    margin: 0 auto 40px;
+    background: rgba(10,30,50,0.9);
+    padding: 28px 30px;
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(0, 170, 255, 0.6);
+    display: none;
+    color: #00aaff;
     text-align: center;
   }
-  .product img {
-    max-width: 100%;
+  #dashboard-section h2 {
+    margin-bottom: 18px;
+  }
+  #logout-btn {
+    display: block;
+    margin: 0 auto 20px auto;
+    background: #005f9e;
+    border: none;
+    padding: 14px 0;
     border-radius: 8px;
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    width: 180px;
+    transition: background 0.3s ease;
   }
-  .product h2 {
-    font-size: 1.25rem;
-    margin: 10px 0 5px;
+  #logout-btn:hover {
+    background: #00477a;
   }
-  .product p {
-    margin: 0;
+
+  /* Products grid */
+  .products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+    margin-bottom: 40px;
+  }
+  .card {
+    background: rgba(10,30,50,0.85);
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 170, 255, 0.6);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+    cursor: default;
+  }
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 14px 4px #0099ffcc;
+  }
+  .card img {
+    max-height: 160px;
+    object-fit: contain;
+    margin-bottom: 18px;
+    border-radius: 8px;
+    background: #111;
+    padding: 10px;
+  }
+  .card h2 {
+    font-size: 1.5rem;
+    margin: 0 0 12px;
+    font-weight: 700;
+    color: #00aaff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card p {
+    flex-grow: 1;
     color: #ccc;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    line-height: 1.4;
+  }
+  .out-of-stock {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #005f9ecc;
+    color: white;
+    font-weight: 800;
+    padding: 6px 14px;
+    border-radius: 16px;
+    font-size: 1rem;
+    text-transform: uppercase;
+    pointer-events: none;
+    user-select: none;
+    box-shadow: 0 0 10px #005f9eb0;
+  }
+  .buy-button {
+    background: #333;
+    border: none;
+    padding: 14px 0;
+    border-radius: 8px;
+    color: #bbb;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: not-allowed;
+    transition: background 0.3s ease;
+  }
+  .buy-button.enabled {
+    background: #00aaff;
+    color: white;
+    cursor: pointer;
+  }
+  .buy-button.enabled:hover {
+    background: #008fcc;
+  }
+
+  /* Cart icon */
+  #cart-icon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #00aaffcc;
+    padding: 10px 14px;
+    border-radius: 50%;
+    color: white;
+    font-weight: 700;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 12px #00aaffbb;
+    transition: background 0.3s ease;
+  }
+  #cart-icon:hover {
+    background: #008fcccc;
+  }
+  #cart-count {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: #66ccff;
+    border-radius: 50%;
+    padding: 4px 8px;
+    font-size: 1rem;
+    color: #004466;
+    font-weight: 900;
+    user-select: none;
+    min-width: 24px;
+    text-align: center;
+    box-shadow: 0 0 6px #00aaffbb;
+  }
+
+  /* Cart popup */
+  #cart-popup {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    width: 320px;
+    max-height: 420px;
+    background: rgba(0, 40, 70, 0.95);
+    border-radius: 14px;
+    box-shadow: 0 0 30px #00aaffbb;
+    padding: 20px;
+    overflow-y: auto;
+    z-index: 350;
+    display: none;
+    flex-direction: column;
+    color: #cceeff;
+  }
+  #cart-popup h3 {
+    color: #00aaff;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  #cart-items {
+    flex-grow: 1;
+    overflow-y: auto;
+    font-size: 1.1rem;
+  }
+  #cart-items div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  #cart-total {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-top: 14px;
+    text-align: right;
+    color: #66ccff;
+  }
+  #checkout-btn-popup {
+    margin-top: 20px;
+    background: #00aaff;
+    border: none;
+    padding: 14px 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: white;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  #checkout-btn-popup:disabled {
+    background: #444;
+    color: #888;
+    cursor: not-allowed;
+  }
+  #checkout-btn-popup:hover:not(:disabled) {
+    background: #008fcc;
+  }
+
+  /* Modal */
+  #modal-overlay {
+    display:none;
+    position:fixed;
+    z-index:400;
+    left:0; top:0; right:0; bottom:0;
+    background:rgba(0,0,0,0.75);
+    backdrop-filter:blur(4px);
+    align-items:center;
+    justify-content:center;
+  }
+  #modal {
+    background:#002d59;
+    padding:32px 28px;
+    border-radius:16px;
+    box-shadow:0 0 30px #00aaffbb;
+    max-width:400px;
+    color:#66ccff;
+    text-align:center;
+  }
+  #modal h2 {
+    margin-top:0;
+    margin-bottom:16px;
+    font-size:2rem;
+    color:#00aaff;
+  }
+  #modal p {
+    font-size:1.2rem;
+    margin-bottom:24px;
+  }
+  #modal button {
+    background:#00aaff;
+    border:none;
+    padding:12px 24px;
+    border-radius:12px;
+    font-weight:700;
+    font-size:1.1rem;
+    color:white;
+    cursor:pointer;
+    transition:background 0.3s ease;
+  }
+  #modal button:hover {
+    background:#008fcc;
+  }
+
+  footer {
+    margin-top: 60px;
+    padding: 20px;
+    text-align: center;
+    font-size: 1rem;
+    color: #00aaff;
+    letter-spacing: 1.2px;
+  }
+  footer a {
+    color: #00aaff;
+    text-decoration: underline;
+    font-weight: 700;
+  }
+
+  /* Scrollbars */
+  #cart-items::-webkit-scrollbar {
+    width: 8px;
+  }
+  #cart-items::-webkit-scrollbar-track {
+    background: #001a2e;
+  }
+  #cart-items::-webkit-scrollbar-thumb {
+    background: #008fccbb;
+    border-radius: 6px;
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    header h1 {
+      font-size: 2.4rem;
+    }
+    #dashboard-section {
+      max-width: 90vw;
+    }
+    #cart-popup {
+      width: 90vw;
+      right: 5vw;
+    }
   }
 </style>
 </head>
 <body>
+
+<div id="login-overlay" aria-live="assertive" role="alert" aria-label="Login overlay">
+  <h2>
+    Login to Khyros Promos Store 💻<br>
+    <small>Make an account and get into shopping!</small>
+  </h2>
+  <input id="login-username" type="text" placeholder="Username" autocomplete="off" aria-label="Username input" />
+  <input id="login-password" type="password" placeholder="Password" autocomplete="off" aria-label="Password input" />
+  <button id="login-btn" aria-label="Login or Register button">Login / Register</button>
+  <div id="login-error" role="alert" aria-live="assertive"></div>
+</div>
+
+<div id="app" aria-live="polite" aria-atomic="true">
+
   <header>
-    <h1>Khyros Promos</h1>
+    <h1>🛒 Khyros Promos Store</h1>
+    <p id="pro-note">Off-streaming FiveM city — I have contributed to 3 full lobbies and more.</p>
+    <input type="search" id="search-bar" placeholder="Search promos..." aria-label="Search store items" />
   </header>
 
-  <section class="products" id="app">
-    <div class="product">
-      <img src="https://i.imgur.com/uO1t60c.png" alt="1 Day Promo">
-      <h2>1 Day Promo</h2>
-      <p>$20</p>
-    </div>
-    <div class="product">
-      <img src="https://i.imgur.com/uO1t60c.png" alt="2 Day Promo">
-      <h2>2 Day Promo</h2>
-      <p>$40</p>
-    </div>
-    <div class="product">
-      <img src="https://i.imgur.com/uO1t60c.png" alt="3 Day Promo">
-      <h2>3 Day Promo</h2>
-      <p>$60</p>
-    </div>
-    <div class="product">
-      <img src="https://i.imgur.com/uO1t60c.png" alt="4 Day Promo">
-      <h2>4 Day Promo</h2>
-      <p>$80</p>
-    </div>
-    <div class="product">
-      <img src="https://i.imgur.com/uO1t60c.png" alt="5 Day Promo">
-      <h2>5 Day Promo</h2>
-      <p>$100</p>
-    </div>
-    <div class="product">
-      <img src="https://i.imgur.com/uO1t60c.png" alt="1 Week Promo">
-      <h2>1 Week Promo</h2>
-      <p>$125</p>
-    </div>
+  <!-- User Dashboard -->
+  <section id="dashboard-section" aria-label="User Dashboard">
+    <h2>Welcome, <span id="user-display"></span>!</h2>
+    <button id="logout-btn">Logout</button>
   </section>
 
-  <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const app = document.getElementById('app') || document.body;
+  <!-- Products -->
+  <section class="products" aria-label="Products for sale">
 
-    // Create login overlay
-    const loginOverlay = document.createElement('div');
-    loginOverlay.id = 'login-overlay';
-    Object.assign(loginOverlay.style, {
-      position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-      background: 'rgba(0,0,0,0.95)',
-      color: '#00aaff',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      zIndex: 9999,
-      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      textAlign: 'center',
-      padding: '20px',
-    });
-    loginOverlay.innerHTML = `
-      <h2 style="margin-bottom:20px; font-size:2rem; max-width: 360px;">
-        Login to Store 💻<br>
-        <small style="font-weight:400; font-size:1rem; color:#00aaffcc;">
-          Make an account and start shopping!
-        </small>
-      </h2>
-      <input id="login-username" type="text" placeholder="Username" autocomplete="off" style="padding:10px; font-size:1.2rem; margin-bottom:10px; border-radius:6px; border:none; width: 280px; max-width: 90vw;" />
-      <input id="login-password" type="password" placeholder="Password" autocomplete="off" style="padding:10px; font-size:1.2rem; margin-bottom:10px; border-radius:6px; border:none; width: 280px; max-width: 90vw;" />
-      <button id="login-btn" style="padding:12px 0; width: 280px; max-width: 90vw; font-size:1.2rem; font-weight:700; border:none; border-radius:8px; background:#00aaff; color:#fff; cursor:pointer;">Login / Register</button>
-      <div id="login-error" style="margin-top:12px; color:#ff5555; font-weight:700; min-height:1.2rem;"></div>
-    `;
-    document.body.appendChild(loginOverlay);
+    <div class="card" data-name="1 Day Promo" data-desc="1 day promotion pack.">
+      <img src="https://i.imgur.com/uO1t60c.png" alt="1 Day Promo" />
+      <h2>1 Day Promo – $20</h2>
+      <p>1 day promotion pack.</p>
+      <button class="buy-button enabled">Add to Cart</button>
+    </div>
 
-    const usernameInput = document.getElementById('login-username');
-    const passwordInput = document.getElementById('login-password');
-    const loginBtn = document.getElementById('login-btn');
-    const loginError = document.getElementById('login-error');
+    <div class="card" data-name="2 Day Promo" data-desc="2 days promotion pack.">
+      <img src="https://i.imgur.com/uO1t60c.png" alt="2 Day Promo" />
+      <h2>2 Day Promo – $40</h2>
+      <p>2 days promotion pack.</p>
+      <button class="buy-button enabled">Add to Cart</button>
+    </div>
 
-    // Simple users database stored in localStorage
-    const usersKey = 'storeUsers';
-    let users = JSON.parse(localStorage.getItem(usersKey)) || {};
+    <div class="card" data-name="3 Day Promo" data-desc="3 days promotion pack.">
+      <img src="https://i.imgur.com/uO1t60c.png" alt="3 Day Promo" />
+      <h2>3 Day Promo – $60</h2>
+      <p>3 days promotion pack.</p>
+      <button class="buy-button enabled">Add to Cart</button>
+    </div>
 
-    // Check if user is already logged in
-    const loggedUser = localStorage.getItem('storeLoggedUser');
-    if(loggedUser && users[loggedUser]) {
-      loginOverlay.style.display = 'none';
-      app.style.filter = 'none';
-      return;
-    }
+    <div class="card" data-name="4 Day Promo" data-desc="4 days promotion pack.">
+      <img src="https://i.imgur.com/uO1t60c.png" alt="4 Day Promo" />
+      <h2>4 Day Promo – $80</h2>
+      <p>4 days promotion pack.</p>
+      <button class="buy-button enabled">Add to Cart</button>
+    </div>
 
-    // Initially blur the app
-    app.style.filter = 'blur(6px)';
+    <div class="card" data-name="1 Week Promo" data-desc="1 week promotion pack.">
+      <img src="https://i.imgur.com/uO1t60c.png" alt="1 Week Promo" />
+      <h2>1 Week Promo – $125</h2>
+      <p>1 week promotion pack.</p>
+      <button class="buy-button enabled">Add to Cart</button>
+    </div>
 
-    loginBtn.addEventListener('click', () => {
-      const username = usernameInput.value.trim();
-      const password = passwordInput.value.trim();
+  </section>
 
-      if(!username || !password) {
-        loginError.textContent = 'Please enter username and password.';
-        return;
-      }
+</div>
 
-      if(users[username]) {
-        // User exists, check password
-        if(users[username] === password) {
-          // Success login
-          localStorage.setItem('storeLoggedUser', username);
-          loginOverlay.style.display = 'none';
-          app.style.filter = 'none';
-          loginError.textContent = '';
-        } else {
-          loginError.textContent = 'Incorrect password.';
-        }
-      } else {
-        // New user, create account
-        users[username] = password;
-        localStorage.setItem(usersKey, JSON.stringify(users));
-        localStorage.setItem('storeLoggedUser', username);
-        loginOverlay.style.display = 'none';
-        app.style.filter = 'none';
-        loginError.textContent = '';
-      }
-    });
-  });
-  </script>
-</body>
-</html>
+<!-- Cart icon top right -->
+<div id="cart-icon" aria-label="Shopping cart" role="button" tabindex="0" title="Open Cart">
+  🛒<div id="cart-count" aria-live="polite" aria-atomic="true">0</div>
+</div>
+
+<!-- Cart popup -->
+<div id="cart-popup" role="dialog" aria-modal="true" aria-labelledby="cart-popup-title">
+  <h3 id="cart-popup-title">Your Cart</h3>
+  <div id="cart-items" tabindex="0" aria-live="polite" aria-atomic="true">
+    <p>Your cart is empty.</p>
+  </div>
+  <div id="cart-total">Total: $0</div>
+  <button id="checkout-btn-popup" disabled>Checkout</button>
+</div>
+
+<footer>
+  &copy; 2025 Khyros Promos — Join our Discord for support and updates: 
+  <a href="https://discord.gg/" target="_blank" rel="noopener noreferrer">
+    https://discord.gg
