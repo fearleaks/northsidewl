@@ -476,7 +476,7 @@
 
   <!-- Cart icon top right -->
   <div id="cart-icon" aria-label="Shopping cart" role="button" tabindex="0" title="Open Cart">
-    🛒<div id="cart-count" aria-live="polite" aria-atomic="true">0</div>
+    🛒<div id="cart-count" aria-live="polite" aria-atomic="true" style="display:none;">0</div>
   </div>
 
   <!-- Cart popup -->
@@ -509,7 +509,7 @@
   </div>
 
 <script>
-  // Demo: keep track of logged-in usernames to prevent duplicates
+  // Store logged in usernames so usernames are unique (demo only)
   const loggedUsernames = new Set();
 
   const loginOverlay = document.getElementById('login-overlay');
@@ -517,50 +517,142 @@
   const loginUsername = document.getElementById('login-username');
   const loginPassword = document.getElementById('login-password');
   const loginError = document.getElementById('login-error');
-
   const dashboardSection = document.getElementById('dashboard-section');
   const userDisplay = document.getElementById('user-display');
   const logoutBtn = document.getElementById('logout-btn');
+
+  let currentUser = null;
 
   loginBtn.addEventListener('click', () => {
     const username = loginUsername.value.trim();
     const password = loginPassword.value.trim();
 
-    // Simple validation: fields not empty
     if (!username || !password) {
       loginError.textContent = 'Please enter username and password.';
       return;
     }
 
-    // Prevent duplicate logins in this demo
-    if (loggedUsernames.has(username)) {
-      loginError.textContent = 'Username is already logged in.';
-      return;
+    // Simple demo: Register if not logged before, else login
+    if (!loggedUsernames.has(username)) {
+      // Register
+      loggedUsernames.add(username);
+      currentUser = username;
+      loginError.textContent = '';
+      onLoginSuccess();
+    } else {
+      // Login - For demo, password is always 'password123'
+      if (password === 'password123') {
+        currentUser = username;
+        loginError.textContent = '';
+        onLoginSuccess();
+      } else {
+        loginError.textContent = 'Invalid password for this username.';
+      }
     }
-
-    // "Log in" the user
-    loggedUsernames.add(username);
-
-    // Clear error message
-    loginError.textContent = '';
-
-    // Show dashboard and hide login overlay
-    loginOverlay.style.display = 'none';
-    dashboardSection.style.display = 'block';
-    userDisplay.textContent = username;
-
-    // Clear input fields
-    loginUsername.value = '';
-    loginPassword.value = '';
   });
 
   logoutBtn.addEventListener('click', () => {
-    const username = userDisplay.textContent;
-    if (loggedUsernames.has(username)) {
-      loggedUsernames.delete(username);
-    }
+    currentUser = null;
+    loginUsername.value = '';
+    loginPassword.value = '';
     dashboardSection.style.display = 'none';
     loginOverlay.style.display = 'flex';
+    cart.clear();
+    updateCartUI();
+  });
+
+  function onLoginSuccess() {
+    loginOverlay.style.display = 'none';
+    dashboardSection.style.display = 'block';
+    userDisplay.textContent = currentUser;
+  }
+
+
+  // --- Cart Logic ---
+
+  const cart = new Map();
+
+  const cartIcon = document.getElementById('cart-icon');
+  const cartCount = document.getElementById('cart-count');
+  const cartPopup = document.getElementById('cart-popup');
+  const cartItemsDiv = document.getElementById('cart-items');
+  const cartTotalDiv = document.getElementById('cart-total');
+  const checkoutBtn = document.getElementById('checkout-btn-popup');
+
+  // Toggle cart popup
+  cartIcon.addEventListener('click', () => {
+    if (cartPopup.style.display === 'flex') {
+      cartPopup.style.display = 'none';
+    } else {
+      cartPopup.style.display = 'flex';
+    }
+  });
+
+  // Add event listeners to all buy buttons
+  document.querySelectorAll('.buy-button.enabled').forEach(button => {
+    button.addEventListener('click', () => {
+      // Only allow adding if logged in (dashboard visible)
+      if (dashboardSection.style.display !== 'block') {
+        alert('Please login first!');
+        return;
+      }
+
+      const card = button.closest('.card');
+      const name = card.dataset.name;
+      const priceText = card.querySelector('h2').textContent;
+      const priceMatch = priceText.match(/\$\d+/);
+      const price = priceMatch ? parseInt(priceMatch[0].slice(1), 10) : 0;
+
+      // Add or update item in cart
+      if (cart.has(name)) {
+        cart.set(name, {...cart.get(name), qty: cart.get(name).qty + 1});
+      } else {
+        cart.set(name, { price, qty: 1 });
+      }
+
+      updateCartUI();
+    });
+  });
+
+  function updateCartUI() {
+    // Update cart count
+    let totalQty = 0;
+    cart.forEach(item => totalQty += item.qty);
+    cartCount.textContent = totalQty;
+    cartCount.style.display = totalQty > 0 ? 'block' : 'none';
+
+    // Update cart items listing
+    if (cart.size === 0) {
+      cartItemsDiv.innerHTML = '<p>Your cart is empty.</p>';
+      checkoutBtn.disabled = true;
+      cartTotalDiv.textContent = 'Total: $0';
+      return;
+    }
+
+    cartItemsDiv.innerHTML = '';
+
+    let totalPrice = 0;
+    cart.forEach((item, name) => {
+      totalPrice += item.price * item.qty;
+
+      const div = document.createElement('div');
+      div.innerHTML = `
+        <span>${name} x${item.qty}</span>
+        <span>$${item.price * item.qty}</span>
+      `;
+      cartItemsDiv.appendChild(div);
+    });
+
+    cartTotalDiv.textContent = `Total: $${totalPrice}`;
+    checkoutBtn.disabled = false;
+  }
+
+  // Checkout button
+  checkoutBtn.addEventListener('click', () => {
+    alert('Thank you for your purchase! (Demo only)');
+    cart.clear();
+    updateCartUI();
+    cartPopup.style.display = 'none';
   });
 </script>
 
