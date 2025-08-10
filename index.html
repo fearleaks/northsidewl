@@ -1,1 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Khyros Promos Store</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0; padding: 0; height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #111;
+    color: white;
+  }
+  header {
+    background-color: #222;
+    padding: 20px;
+    text-align: center;
+  }
+  header h1 {
+    margin: 0;
+    font-size: 2rem;
+  }
+  .products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
+  .product {
+    background-color: #1b1b1b;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .product img {
+    max-width: 100%;
+    border-radius: 8px;
+  }
+  .product h2 {
+    font-size: 1.25rem;
+    margin: 10px 0 5px;
+  }
+  .product p {
+    margin: 0;
+    color: #ccc;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Khyros Promos</h1>
+  </header>
 
+  <section class="products" id="app">
+    <div class="product">
+      <img src="https://i.imgur.com/uO1t60c.png" alt="1 Day Promo">
+      <h2>1 Day Promo</h2>
+      <p>$20</p>
+    </div>
+    <div class="product">
+      <img src="https://i.imgur.com/uO1t60c.png" alt="2 Day Promo">
+      <h2>2 Day Promo</h2>
+      <p>$40</p>
+    </div>
+    <div class="product">
+      <img src="https://i.imgur.com/uO1t60c.png" alt="3 Day Promo">
+      <h2>3 Day Promo</h2>
+      <p>$60</p>
+    </div>
+    <div class="product">
+      <img src="https://i.imgur.com/uO1t60c.png" alt="4 Day Promo">
+      <h2>4 Day Promo</h2>
+      <p>$80</p>
+    </div>
+    <div class="product">
+      <img src="https://i.imgur.com/uO1t60c.png" alt="5 Day Promo">
+      <h2>5 Day Promo</h2>
+      <p>$100</p>
+    </div>
+    <div class="product">
+      <img src="https://i.imgur.com/uO1t60c.png" alt="1 Week Promo">
+      <h2>1 Week Promo</h2>
+      <p>$125</p>
+    </div>
+  </section>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const app = document.getElementById('app') || document.body;
+
+    // Create login overlay
+    const loginOverlay = document.createElement('div');
+    loginOverlay.id = 'login-overlay';
+    Object.assign(loginOverlay.style, {
+      position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+      background: 'rgba(0,0,0,0.95)',
+      color: '#00aaff',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 9999,
+      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+      textAlign: 'center',
+      padding: '20px',
+    });
+    loginOverlay.innerHTML = `
+      <h2 style="margin-bottom:20px; font-size:2rem; max-width: 360px;">
+        Login to Store 💻<br>
+        <small style="font-weight:400; font-size:1rem; color:#00aaffcc;">
+          Make an account and start shopping!
+        </small>
+      </h2>
+      <input id="login-username" type="text" placeholder="Username" autocomplete="off" style="padding:10px; font-size:1.2rem; margin-bottom:10px; border-radius:6px; border:none; width: 280px; max-width: 90vw;" />
+      <input id="login-password" type="password" placeholder="Password" autocomplete="off" style="padding:10px; font-size:1.2rem; margin-bottom:10px; border-radius:6px; border:none; width: 280px; max-width: 90vw;" />
+      <button id="login-btn" style="padding:12px 0; width: 280px; max-width: 90vw; font-size:1.2rem; font-weight:700; border:none; border-radius:8px; background:#00aaff; color:#fff; cursor:pointer;">Login / Register</button>
+      <div id="login-error" style="margin-top:12px; color:#ff5555; font-weight:700; min-height:1.2rem;"></div>
+    `;
+    document.body.appendChild(loginOverlay);
+
+    const usernameInput = document.getElementById('login-username');
+    const passwordInput = document.getElementById('login-password');
+    const loginBtn = document.getElementById('login-btn');
+    const loginError = document.getElementById('login-error');
+
+    // Simple users database stored in localStorage
+    const usersKey = 'storeUsers';
+    let users = JSON.parse(localStorage.getItem(usersKey)) || {};
+
+    // Check if user is already logged in
+    const loggedUser = localStorage.getItem('storeLoggedUser');
+    if(loggedUser && users[loggedUser]) {
+      loginOverlay.style.display = 'none';
+      app.style.filter = 'none';
+      return;
+    }
+
+    // Initially blur the app
+    app.style.filter = 'blur(6px)';
+
+    loginBtn.addEventListener('click', () => {
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
+
+      if(!username || !password) {
+        loginError.textContent = 'Please enter username and password.';
+        return;
+      }
+
+      if(users[username]) {
+        // User exists, check password
+        if(users[username] === password) {
+          // Success login
+          localStorage.setItem('storeLoggedUser', username);
+          loginOverlay.style.display = 'none';
+          app.style.filter = 'none';
+          loginError.textContent = '';
+        } else {
+          loginError.textContent = 'Incorrect password.';
+        }
+      } else {
+        // New user, create account
+        users[username] = password;
+        localStorage.setItem(usersKey, JSON.stringify(users));
+        localStorage.setItem('storeLoggedUser', username);
+        loginOverlay.style.display = 'none';
+        app.style.filter = 'none';
+        loginError.textContent = '';
+      }
+    });
+  });
+  </script>
+</body>
+</html>
