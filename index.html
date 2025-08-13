@@ -41,6 +41,7 @@
     letter-spacing: 2px;
     color: #5865F2;
     user-select: none;
+    cursor: default;
   }
 
   nav ul {
@@ -59,6 +60,7 @@
     text-decoration: none;
     color: #f0f0f0;
     transition: color 0.3s ease;
+    cursor: pointer;
   }
 
   nav ul li a:hover {
@@ -178,7 +180,7 @@
     background: #1e1e2f;
     padding: 30px 40px;
     border-radius: 15px;
-    max-width: 350px;
+    max-width: 400px;
     width: 90%;
     box-shadow: 0 8px 30px rgba(88, 101, 242, 0.8);
     text-align: center;
@@ -209,6 +211,7 @@
     font-weight: 400;
     font-size: 1rem;
     margin-bottom: 25px;
+    white-space: pre-line;
   }
 
   .popup .btn {
@@ -244,15 +247,44 @@
   .popup .close-btn:hover {
     color: #fff;
   }
+
+  /* Watermark options */
+  .watermark-options {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .watermark-options a {
+    flex: 1 1 100px;
+    max-width: 120px;
+    display: block;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(88, 101, 242, 0.6);
+    transition: transform 0.3s ease;
+  }
+
+  .watermark-options a:hover {
+    transform: scale(1.1);
+  }
+
+  .watermark-options img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
 </style>
 </head>
 <body>
   <nav>
     <div class="logo">Velocity Streamer Lounge</div>
     <ul>
-      <li><a href="#about">About</a></li>
-      <li><a href="#discord">Discord</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a id="aboutLink">About</a></li>
+      <li><a href="https://discord.gg/vlounge" target="_blank" rel="noopener">Discord</a></li>
+      <li><a id="contactLink">Contact</a></li>
+      <li><a id="watermarkLink">Download Watermark</a></li>
     </ul>
   </nav>
 
@@ -266,48 +298,99 @@
     &copy; 2025 Velocity Streamer Lounge. All rights reserved.
   </footer>
 
-  <!-- Popup overlays -->
-  <div class="popup-overlay" id="popup1">
+  <!-- About Popup -->
+  <div class="popup-overlay" id="aboutPopup">
     <div class="popup">
-      <span class="close-btn" id="closePopup1">&times;</span>
-      <h2>Join Discord for Free Promos!</h2>
-      <p>Exclusive giveaways and community perks await. Don’t miss out!</p>
-      <a href="https://discord.gg/vlounge" target="_blank" rel="noopener" class="btn">Join Now</a>
+      <span class="close-btn" id="closeAbout">&times;</span>
+      <h2>About Velocity Streamer Lounge</h2>
+      <p>
+        This community is dedicated to FiveM streamers.<br>
+        Connect, share clips, collaborate, and grow your channel.<br>
+        Whether you're a beginner or pro, this is your space to thrive.
+      </p>
     </div>
   </div>
 
-  <div class="popup-overlay" id="popup2">
+  <!-- Contact Popup -->
+  <div class="popup-overlay" id="contactPopup">
     <div class="popup">
-      <span class="close-btn" id="closePopup2">&times;</span>
-      <h2>Comp FiveM Clips Every Week!</h2>
-      <p>Watch the best content and get featured in our weekly roundup.</p>
-      <a href="https://discord.gg/vlounge" target="_blank" rel="noopener" class="btn">Check It Out</a>
+      <span class="close-btn" id="closeContact">&times;</span>
+      <h2>Contact Us</h2>
+      <p>
+        Reach out on Discord:<br><br>
+        <strong>clickey3520#0001</strong>
+      </p>
+      <a href="https://discord.gg/vlounge" target="_blank" rel="noopener" class="btn">Join Discord</a>
+    </div>
+  </div>
+
+  <!-- Watermark Popup -->
+  <div class="popup-overlay" id="watermarkPopup">
+    <div class="popup">
+      <span class="close-btn" id="closeWatermark">&times;</span>
+      <h2>Download Watermarks</h2>
+      <p>Select a watermark below to open or download:</p>
+      <div class="watermark-options">
+        <a href="https://cdn.discordapp.com/attachments/1399941993567617034/1405045564474789948/image.png" target="_blank" rel="noopener">
+          <img src="https://cdn.discordapp.com/attachments/1399941993567617034/1405045564474789948/image.png" alt="Watermark 1" />
+        </a>
+        <a href="https://media.discordapp.net/attachments/1336756060056191007/1405036381566275615/3dgifmaker74284.gif" target="_blank" rel="noopener">
+          <img src="https://media.discordapp.net/attachments/1336756060056191007/1405036381566275615/3dgifmaker74284.gif" alt="Watermark 2" />
+        </a>
+        <a href="https://cdn.discordapp.com/attachments/1336756060056191007/1405040139323048008/3dgifmaker70279.gif" target="_blank" rel="noopener">
+          <img src="https://cdn.discordapp.com/attachments/1336756060056191007/1405040139323048008/3dgifmaker70279.gif" alt="Watermark 3" />
+        </a>
+      </div>
     </div>
   </div>
 
 <script>
-  const popup1 = document.getElementById('popup1');
-  const popup2 = document.getElementById('popup2');
-  const closePopup1 = document.getElementById('closePopup1');
-  const closePopup2 = document.getElementById('closePopup2');
+  // Get elements
+  const aboutLink = document.getElementById('aboutLink');
+  const contactLink = document.getElementById('contactLink');
+  const watermarkLink = document.getElementById('watermarkLink');
 
-  // Show first popup after 5 seconds
-  setTimeout(() => {
-    popup1.classList.add('active');
-  }, 5000);
+  const aboutPopup = document.getElementById('aboutPopup');
+  const contactPopup = document.getElementById('contactPopup');
+  const watermarkPopup = document.getElementById('watermarkPopup');
 
-  // Close first popup
-  closePopup1.addEventListener('click', () => {
-    popup1.classList.remove('active');
-    // Show second popup after another 5 seconds
-    setTimeout(() => {
-      popup2.classList.add('active');
-    }, 5000);
+  const closeAbout = document.getElementById('closeAbout');
+  const closeContact = document.getElementById('closeContact');
+  const closeWatermark = document.getElementById('closeWatermark');
+
+  // Show popups on link click
+  aboutLink.addEventListener('click', () => {
+    aboutPopup.classList.add('active');
   });
 
-  // Close second popup
-  closePopup2.addEventListener('click', () => {
-    popup2.classList.remove('active');
+  contactLink.addEventListener('click', () => {
+    contactPopup.classList.add('active');
+  });
+
+  watermarkLink.addEventListener('click', () => {
+    watermarkPopup.classList.add('active');
+  });
+
+  // Close popups on close button click
+  closeAbout.addEventListener('click', () => {
+    aboutPopup.classList.remove('active');
+  });
+
+  closeContact.addEventListener('click', () => {
+    contactPopup.classList.remove('active');
+  });
+
+  closeWatermark.addEventListener('click', () => {
+    watermarkPopup.classList.remove('active');
+  });
+
+  // Also close popups if clicking outside the popup content
+  [aboutPopup, contactPopup, watermarkPopup].forEach(popup => {
+    popup.addEventListener('click', e => {
+      if(e.target === popup) {
+        popup.classList.remove('active');
+      }
+    });
   });
 </script>
 </body>
