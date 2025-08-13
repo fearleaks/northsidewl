@@ -226,6 +226,7 @@
     box-shadow: 0 5px 15px rgba(88, 101, 242, 0.6);
     transition: background-color 0.3s ease;
     user-select: none;
+    cursor: pointer;
   }
 
   .popup .btn:hover {
@@ -331,21 +332,31 @@
       <h2>Download Watermarks</h2>
       <p>Select a watermark below to open or download:</p>
       <div class="watermark-options">
-        <a href="https://cdn.discordapp.com/attachments/1399941993567617034/1405045564474789948/image.png" target="_blank" rel="noopener">
-          <img src="https://cdn.discordapp.com/attachments/1399941993567617034/1405045564474789948/image.png" alt="Watermark 1" />
+        <a href="https://i.imgur.com/R4JH5zJ.png" target="_blank" rel="noopener">
+          <img src="https://i.imgur.com/R4JH5zJ.png" alt="Watermark 1" />
         </a>
-        <a href="https://media.discordapp.net/attachments/1336756060056191007/1405036381566275615/3dgifmaker74284.gif" target="_blank" rel="noopener">
-          <img src="https://media.discordapp.net/attachments/1336756060056191007/1405036381566275615/3dgifmaker74284.gif" alt="Watermark 2" />
+        <a href="https://i.imgur.com/O7wQtyT.png" target="_blank" rel="noopener">
+          <img src="https://i.imgur.com/O7wQtyT.png" alt="Watermark 2" />
         </a>
-        <a href="https://cdn.discordapp.com/attachments/1336756060056191007/1405040139323048008/3dgifmaker70279.gif" target="_blank" rel="noopener">
-          <img src="https://cdn.discordapp.com/attachments/1336756060056191007/1405040139323048008/3dgifmaker70279.gif" alt="Watermark 3" />
+        <a href="https://i.imgur.com/SbIrjrW.png" target="_blank" rel="noopener">
+          <img src="https://i.imgur.com/SbIrjrW.png" alt="Watermark 3" />
         </a>
       </div>
     </div>
   </div>
 
+  <!-- Timed Promo Popup -->
+  <div class="popup-overlay" id="promoPopup">
+    <div class="popup">
+      <span class="close-btn" id="closePromo">&times;</span>
+      <h2 id="promoTitle">Join Our Discord!</h2>
+      <p id="promoText">Join Discord for free promos and comp FiveM clips.</p>
+      <a href="https://discord.gg/vlounge" target="_blank" rel="noopener" class="btn">Join Discord</a>
+    </div>
+  </div>
+
 <script>
-  // Get elements
+  // Manual popup triggers
   const aboutLink = document.getElementById('aboutLink');
   const contactLink = document.getElementById('contactLink');
   const watermarkLink = document.getElementById('watermarkLink');
@@ -358,39 +369,86 @@
   const closeContact = document.getElementById('closeContact');
   const closeWatermark = document.getElementById('closeWatermark');
 
-  // Show popups on link click
-  aboutLink.addEventListener('click', () => {
-    aboutPopup.classList.add('active');
-  });
+  aboutLink.addEventListener('click', () => aboutPopup.classList.add('active'));
+  contactLink.addEventListener('click', () => contactPopup.classList.add('active'));
+  watermarkLink.addEventListener('click', () => watermarkPopup.classList.add('active'));
 
-  contactLink.addEventListener('click', () => {
-    contactPopup.classList.add('active');
-  });
+  closeAbout.addEventListener('click', () => aboutPopup.classList.remove('active'));
+  closeContact.addEventListener('click', () => contactPopup.classList.remove('active'));
+  closeWatermark.addEventListener('click', () => watermarkPopup.classList.remove('active'));
 
-  watermarkLink.addEventListener('click', () => {
-    watermarkPopup.classList.add('active');
-  });
-
-  // Close popups on close button click
-  closeAbout.addEventListener('click', () => {
-    aboutPopup.classList.remove('active');
-  });
-
-  closeContact.addEventListener('click', () => {
-    contactPopup.classList.remove('active');
-  });
-
-  closeWatermark.addEventListener('click', () => {
-    watermarkPopup.classList.remove('active');
-  });
-
-  // Also close popups if clicking outside the popup content
   [aboutPopup, contactPopup, watermarkPopup].forEach(popup => {
     popup.addEventListener('click', e => {
       if(e.target === popup) {
         popup.classList.remove('active');
       }
     });
+  });
+
+  // Timed promo popup
+  const promoPopup = document.getElementById('promoPopup');
+  const closePromo = document.getElementById('closePromo');
+  const promoTitle = document.getElementById('promoTitle');
+  const promoText = document.getElementById('promoText');
+  const promoBtn = promoPopup.querySelector('.btn');
+
+  const promos = [
+    {
+      title: "Join Our Discord!",
+      text: "Join Discord for free promos and comp FiveM clips.",
+      btnLink: "https://discord.gg/vlounge",
+      btnText: "Join Discord"
+    },
+    {
+      title: "Check Out Our Community!",
+      text: "Meet streamers, share clips, and grow together.",
+      btnLink: "https://discord.gg/vlounge",
+      btnText: "Join Now"
+    },
+    {
+      title: "Get Exclusive Content!",
+      text: "Access exclusive FiveM scripts and graphics packs.",
+      btnLink: "https://discord.gg/vlounge",
+      btnText: "Join Discord"
+    }
+  ];
+
+  let promoIndex = 0;
+
+  function showPromo(index) {
+    const promo = promos[index];
+    promoTitle.textContent = promo.title;
+    promoText.textContent = promo.text;
+    promoBtn.href = promo.btnLink;
+    promoBtn.textContent = promo.btnText;
+    promoPopup.classList.add('active');
+  }
+
+  function hidePromo() {
+    promoPopup.classList.remove('active');
+  }
+
+  closePromo.addEventListener('click', () => {
+    hidePromo();
+    // Schedule next promo after 10 seconds
+    promoIndex = (promoIndex + 1) % promos.length;
+    setTimeout(() => showPromo(promoIndex), 10000);
+  });
+
+  // Also close promo if clicking outside popup content
+  promoPopup.addEventListener('click', e => {
+    if(e.target === promoPopup) {
+      hidePromo();
+      promoIndex = (promoIndex + 1) % promos.length;
+      setTimeout(() => showPromo(promoIndex), 10000);
+    }
+  });
+
+  // Show first promo 5 seconds after page load
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      showPromo(promoIndex);
+    }, 5000);
   });
 </script>
 </body>
