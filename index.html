@@ -159,11 +159,6 @@
 </style>
 </head>
 <body>
-  <!-- Watermarks -->
-  <img src="https://i.imgur.com/poezqAQ" class="watermark" alt="Watermark 1" />
-  <img src="https://i.imgur.com/q2FdBiU" class="watermark" alt="Watermark 2" />
-  <img src="https://i.imgur.com/rFe0hCC" class="watermark" alt="Watermark 3" />
-
   <!-- Login overlay -->
   <div id="login-overlay">
     <h2>Login to Northside WL Store 💻<br>
@@ -338,12 +333,12 @@
     cartItemsContainer.innerHTML='';
     if(cart.length===0){ cartItemsContainer.innerHTML='<p>Your cart is empty.</p>'; checkoutBtn.disabled=true; document.getElementById('cart-total').textContent='Total: $0'; return; }
     cart.forEach(item=>{
-      const div=document.createElement('div'); div.textContent=`${item.title} x${item.quantity}`;
-      const priceSpan=document.createElement('span'); priceSpan.textContent=`$${item.price*item.quantity}`;
+      const div=document.createElement('div'); div.textContent=${item.title} x${item.quantity};
+      const priceSpan=document.createElement('span'); priceSpan.textContent=$${item.price*item.quantity};
       div.appendChild(priceSpan); cartItemsContainer.appendChild(div);
     });
     const total=cart.reduce((a,i)=>a+i.price*i.quantity,0);
-    document.getElementById('cart-total').textContent=`Total: $${total}`;
+    document.getElementById('cart-total').textContent=Total: $${total};
     checkoutBtn.disabled=false;
   }
 
